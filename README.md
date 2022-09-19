@@ -4,7 +4,7 @@ C++ port of CarPhysics
 
 ## Dependencies
 
-Dependency on Box2D as a submodule
+Dependency on Box2D, and pybond11 as a submodules
 
 To get the code:
 ```
