@@ -10,9 +10,9 @@ class Trajectory
         virtual ~Trajectory();
 
         float GetLength();
-        int GetNbSegments();
+        // int GetNbSegments();
 
-        void GetPosition(float abscissa, b2Vec2 *position);
+        void GetPosition(float abscissa, b2Vec2 &position);
         float GetAngle(float abscissa);
         
     protected:
@@ -20,8 +20,9 @@ class Trajectory
         {
             b2Vec2 P1;          // starting point
             b2Vec2 P2;          // end point
+            b2Vec2 N;           // unit vector
             float length;       // segment lenght
-            float P1Abscissa;   // segment start abscissa
+            float abscissa;   // segment start abscissa
         } Segment;
 
         std::list<Segment*> m_Segments;  
