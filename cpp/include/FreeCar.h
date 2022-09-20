@@ -1,4 +1,4 @@
-#pragme once
+#pragma once
 
 #include "BaseCar.h"
 
@@ -13,6 +13,5 @@ class FreeCar : public BaseCar
         void Throttle(float value);
         void Brake(float value);
         void Turn(float value);
-
 
 };
