@@ -5,6 +5,23 @@
 
 Trajectory::Trajectory(std::list<b2Vec2>* waypoints)
 {
+    Init(waypoints);
+}
+
+Trajectory::Trajectory(std::list<float>* waypoints)
+{
+    std::list<b2Vec2> newlist;
+    for (std::list<float>::iterator it = waypoints->begin(); it!=waypoints->end(); it++)
+    {
+        float x = *it++;
+        float y = *it;
+        newlist.push_back(b2Vec2(x,y));
+    }
+    Init(&newlist);
+}
+
+void Trajectory::Init(std::list<b2Vec2>* waypoints)
+{
     if (waypoints->size()>=2)
     {
         std::list<b2Vec2>::iterator it=waypoints->begin();
@@ -82,4 +99,10 @@ Trajectory::Segment* Trajectory::GetSegment(float abscissa)
             return s;
     }
     return nullptr;
+}
+
+std::string Trajectory::Repr()
+{
+    std::string repr = "<car2dphysics.Trajectory object nbsegments="+std::to_string(m_Segments.size())+">";
+    return repr;
 }
