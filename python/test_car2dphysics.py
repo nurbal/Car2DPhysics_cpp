@@ -8,8 +8,10 @@ sys.path.append(sandbox_path)
 
 import car2dphysics as cp
 
-waypoints=[1.0,2.0,3.0,4.0,5,6]
+waypoints=[0,0,1,0,2,1]
 print (waypoints)
 t = cp.Trajectory(waypoints)
 
 print (str(t))
+
+print (str(t.GetLength()))
