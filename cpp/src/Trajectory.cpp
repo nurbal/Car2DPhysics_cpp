@@ -1,6 +1,7 @@
 #include "Trajectory.h"
 
 #include <iterator>
+#include <math.h>
 
 Trajectory::Trajectory(std::list<b2Vec2>* waypoints)
 {
@@ -63,8 +64,13 @@ void Trajectory::GetPosition(float abscissa, b2Vec2 &position)
 
 float Trajectory::GetAngle(float abscissa)
 {
-    // TODO
-    return 0.f;
+    Segment *s = GetSegment(abscissa);
+    if (!s) 
+        return 0.f;
+    float angle = acosf(s->N.x);
+    if (s->N.y<0)
+        angle = -angle;
+    return angle;
 }
 
 Trajectory::Segment* Trajectory::GetSegment(float abscissa)
