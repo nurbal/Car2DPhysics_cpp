@@ -1,9 +1,8 @@
 import os
 import sys
-import numpy as np
 
 dir_path = os.path.dirname(os.path.realpath(__file__))
-sandbox_path=dir_path+'/build'
+sandbox_path=dir_path+'/../build'
 sys.path.append(sandbox_path)
 
 import car2dphysics as cp

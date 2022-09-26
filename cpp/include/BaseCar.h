@@ -5,7 +5,7 @@
 class BaseCar
 {
     public:
-        BaseCar();
+        BaseCar(float width,float length);
         virtual ~BaseCar();
 
         virtual void Step(float dt) = 0;
@@ -14,4 +14,6 @@ class BaseCar
 
     protected:
         b2Body *m_Body;
+        float m_Width;
+        float m_Length;
 };

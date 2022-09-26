@@ -79,6 +79,12 @@ void Trajectory::GetPosition(float abscissa, b2Vec2 &position)
     position += s->P1;
 }
 
+void Trajectory::GetDirection(float abscissa, b2Vec2 &direction)
+{
+    Segment *s = GetSegment(abscissa);
+    direction = s->N;
+}
+
 float Trajectory::GetAngle(float abscissa)
 {
     Segment *s = GetSegment(abscissa);

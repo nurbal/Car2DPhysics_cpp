@@ -1,7 +1,9 @@
 #include "BaseCar.h"
 
-BaseCar::BaseCar()
+BaseCar::BaseCar(float width,float length)
 {
+    m_Width = width;
+    m_Length = length;
     m_Body = 0;
 }
 

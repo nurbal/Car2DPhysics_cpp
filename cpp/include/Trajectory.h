@@ -15,6 +15,7 @@ class Trajectory
         // int GetNbSegments();
 
         void GetPosition(float abscissa, b2Vec2 &position);
+        void GetDirection(float abscissa, b2Vec2 &direction);
         float GetAngle(float abscissa);
 
         std::string Repr();

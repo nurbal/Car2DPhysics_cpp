@@ -1,6 +1,7 @@
 #include "FreeCar.h"
+#include "defines.h"
 
-FreeCar::FreeCar() : BaseCar()
+FreeCar::FreeCar() : BaseCar(CAR_WIDTH,CAR_LENGTH)
 {
     // TODO
 }
