@@ -8,7 +8,6 @@ pybind11_add_module(
     cpp/src/car2dphysics_module.cpp
     cpp/src/BaseCar.cpp
     cpp/src/FreeCar.cpp
-    cpp/src/MovingCar.cpp
     cpp/src/TrajectoryCar.cpp
     cpp/src/Trajectory.cpp
     )
