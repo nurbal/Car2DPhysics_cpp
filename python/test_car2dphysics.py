@@ -1,3 +1,7 @@
+# just a sandbox to test some features...
+
+
+
 import os
 import sys
 
@@ -14,3 +18,5 @@ t = cp.Trajectory(waypoints)
 print (str(t))
 
 print (str(t.GetLength()))
+
+
