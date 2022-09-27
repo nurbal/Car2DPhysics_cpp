@@ -1,7 +1,7 @@
 // configuration consts
 
 #define CAR_WIDTH   2.f
-#define CAR_LENGTH  5.f
+#define CAR_LENGTH  4.f
 
 #define FREECAR_MAXSPEED                10.f
 #define FREECAR_MAXREVERSESPEED         -1.f
