@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 3.0.0)
 project(car2dphysics VERSION 0.1.0)
 
 add_subdirectory(third_party/pybind11)
+add_subdirectory(third_party/box2d)
+
+
 pybind11_add_module(
     car2dphysics 
     cpp/src/car2dphysics_module.cpp
@@ -19,3 +22,5 @@ target_include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/third_party/box2d/include
     # ${CMAKE_CURRENT_SOURCE_DIR}/pybind11/include
     )
+
+target_link_libraries(car2dphysics PUBLIC box2d)    
