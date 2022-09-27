@@ -4,9 +4,16 @@ C++ port of CarPhysics
 
 ## Dependencies
 
-Dependency on Box2D, and pybind11 as a submodules
+### Build system
 
-To get the code:
+- CMake >= 3.0
+
+### Python dependencies
+
+- Dependency on pygame, you may install it via pip for example.
+- Dependency on Box2D, and pybind11 as a submodules.
+
+To get the code of these two libraries:
 ```
 git submodule update --init --recursive
 ```
