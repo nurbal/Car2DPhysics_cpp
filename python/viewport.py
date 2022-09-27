@@ -8,6 +8,11 @@ WINCENTER = [500,500]   # center in pixels
 WINSCALE = [20,20]      # viewport dimensions (in m)
 
 
+class Sprite:
+    def __init__(self,w,h,filename):
+        pass
+
+
 class Viewport: 
     def __init__(self,windowtitle):
         # create our screen surface
@@ -17,8 +22,6 @@ class Viewport:
 
         # pygame clock
         self.clock = pg.time.Clock()
-
-        pass
 
     def update(self,ticks):
         done = False
