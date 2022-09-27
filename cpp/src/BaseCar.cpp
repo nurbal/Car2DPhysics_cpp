@@ -16,3 +16,8 @@ b2Vec2 BaseCar::GetPosition()
     // ASSERT (m_Body!=0)
     return m_Body->GetPosition();
 }
+
+float BaseCar::GetAngle()
+{
+    return m_Body->GetAngle();
+}

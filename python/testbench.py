@@ -31,6 +31,8 @@ def main():
     trajectorycar_sprite = vp.Sprite(CAR_WIDTH,CAR_LENGTH,res_dir+"trajectorycar.png")
 
     # create car2dphysics environment
+    cp.init()
+    circuit = cp.BenchmarkCircuit8()
 
     # TODO create freecar
     # TODO create trajectory cars
@@ -42,21 +44,43 @@ def main():
     while not done:
         # joystick / keyboard input
         steer = 0
+        throttle = 0
+        brake = 0
         keys = pg.key.get_pressed()
         if keys[pg.K_LEFT]:
             steer -= 1;
         if keys[pg.K_RIGHT]:
             steer += 1;
+        if keys[pg.K_UP]:
+            throttle += 1;
+        if keys[pg.K_DOWN]:
+            throttle -= 1;
+        if keys[pg.K_SPACE]:
+            brake = 1;
         if pg.joystick.get_count()>0:
             j = pg.joystick.Joystick(0)
             steer+=j.get_axis(0)
+            throttle-=j.get_axis(1)
+
+        # update physics simulation
+        circuit.Step(0.02)
+
+        freecar = circuit.GetFreeCar()
+        print(str(freecar))
+        freecar.Turn(steer)
+        freecar.Throttle(throttle)
+        freecar.Brake(brake)
+        print(freecar.GetPosition())
 
 
         # render...
         viewport.clear()
-        angle = tc
-        viewport.draw_sprite(freecar_sprite,0,0,-steer)
-        viewport.draw_sprite(trajectorycar_sprite,-5,0,-angle)
+
+        (x,y,angle) = freecar.GetPosition()
+
+        # angle = tc
+        viewport.draw_sprite(freecar_sprite,x,y,angle)
+        # viewport.draw_sprite(trajectorycar_sprite,-5,0,-angle)
 
         done = viewport.update(50)
         tc += 0.02  # 20ms = 50fps

@@ -11,6 +11,7 @@ class BaseCar
         virtual void Step(float dt) = 0;
 
         b2Vec2 GetPosition();
+        float GetAngle();
 
     protected:
         b2Body *m_Body;

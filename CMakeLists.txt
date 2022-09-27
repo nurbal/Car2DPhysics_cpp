@@ -13,6 +13,8 @@ pybind11_add_module(
     cpp/src/FreeCar.cpp
     cpp/src/TrajectoryCar.cpp
     cpp/src/Trajectory.cpp
+    cpp/src/BenchmarkCircuit8.cpp
+    cpp/src/Singletons.cpp
     )
 
 target_include_directories(

@@ -1,6 +1,8 @@
 #include "FreeCar.h"
 #include "defines.h"
 #include <stdlib.h>
+#include <iostream>
+#include <string>
 
 FreeCar::FreeCar(b2World *world, float spawnDistance, float maxDistance) : BaseCar(CAR_WIDTH,CAR_LENGTH)
 {
@@ -61,6 +63,7 @@ void FreeCar::Throttle(float value)
 
 void FreeCar::Brake(float value)
 {
+    if (fabsf(value)<0.001) return;
     m_ThrottleAccel = 0;    // could be matter of design discussion
     m_BrakeAccel = m_MaxBrakeAccel * value;
 
@@ -69,6 +72,7 @@ void FreeCar::Brake(float value)
 void FreeCar::Turn(float value)
 {
     m_Steering = value;
+    std::cout << "FreeCar::turn " << value << std::endl;
 }
 
 void FreeCar::Step(float dt)
