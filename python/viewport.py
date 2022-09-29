@@ -6,7 +6,7 @@ import math
 # viewport constants
 WINSIZE = [1000,1000]   # size in pixels
 WINCENTER = [500,500]   # center in pixels
-WINSCALE = WINSIZE[0]/70      # viewport scale (pixels per meter)
+WINSCALE = WINSIZE[0]/90      # viewport scale (pixels per meter)
 
 
 class Sprite:

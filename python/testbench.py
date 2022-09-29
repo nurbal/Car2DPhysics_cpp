@@ -33,9 +33,9 @@ def main():
     # create car2dphysics environment
     cp.init()
     circuit = cp.BenchmarkCircuit8()
+    freecar = circuit.GetFreeCar()
+    trajectrorycars = circuit.GetTrajectoryCars()
 
-    # TODO create freecar
-    # TODO create trajectory cars
     # TODO create road borders
 
     # simulation loop
@@ -65,23 +65,25 @@ def main():
         # update physics simulation
         circuit.Step(0.02)
 
-        freecar = circuit.GetFreeCar()
-        print(str(freecar))
+        # print(str(freecar))
         freecar.Turn(steer)
         freecar.Throttle(throttle)
         freecar.Brake(brake)
-        print(freecar.GetPosition())
+        # print(freecar.GetPosition())
 
 
         # render...
         viewport.clear()
 
         (x,y,angle) = freecar.GetPosition()
-
-        # angle = tc
         viewport.draw_sprite(freecar_sprite,x,y,angle)
-        # viewport.draw_sprite(trajectorycar_sprite,-5,0,-angle)
 
+        for car in trajectrorycars:
+            (x,y,angle) = car.GetPosition()
+            viewport.draw_sprite(freecar_sprite,x,y,angle)
+
+
+        
         done = viewport.update(50)
         tc += 0.02  # 20ms = 50fps
 

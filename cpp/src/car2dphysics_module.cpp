@@ -48,6 +48,7 @@ PYBIND11_MODULE(car2dphysics, m)
         .def(py::init<>())
         .def("Step", &BenchmarkCircuit8::Step)
         .def("GetFreeCar", &BenchmarkCircuit8::GetFreeCar)
+        .def("GetTrajectoryCars", &BenchmarkCircuit8::GetTrajectoryCars)
         ;
 
     py::class_<BaseCar>(m,"BaseCar")
@@ -58,6 +59,8 @@ PYBIND11_MODULE(car2dphysics, m)
         .def("Throttle",&FreeCar::Throttle)
         .def("Brake",&FreeCar::Brake)
         .def("Turn",&FreeCar::Turn)
+        ;
+    py::class_<TrajectoryCar,BaseCar>(m,"TrajectoryCar")
         ;
 
 

@@ -16,7 +16,7 @@ class Trajectory
 
         void GetPosition(float abscissa, b2Vec2 &position);
         void GetDirection(float abscissa, b2Vec2 &direction);
-        float GetAngle(float abscissa);
+        float GetAngle(float abscissa); // 0 = north, PI/2 = west, -pi/2 = east, pi=south
 
         std::string Repr();
         

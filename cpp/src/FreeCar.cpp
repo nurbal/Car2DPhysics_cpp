@@ -72,7 +72,6 @@ void FreeCar::Brake(float value)
 void FreeCar::Turn(float value)
 {
     m_Steering = value;
-    std::cout << "FreeCar::turn " << value << std::endl;
 }
 
 void FreeCar::Step(float dt)
@@ -148,7 +147,7 @@ void FreeCar::Step(float dt)
     forward *= dy;
     newPos += right;
     newPos += forward;
-    float newAngle = m_Body->GetAngle() + alpha;
+    float newAngle = m_Body->GetAngle() - alpha;
     m_Body->SetTransform(newPos,newAngle);
 }
 

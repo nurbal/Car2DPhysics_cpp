@@ -3,6 +3,9 @@
 #include "Singletons.h"
 #include <box2d/box2d.h>
 
+// #include <stdlib>
+
+float randf() { return (float)rand() / (float)RAND_MAX; }
 
 BenchmarkCircuit8::BenchmarkCircuit8()
 {
@@ -81,16 +84,21 @@ BenchmarkCircuit8::BenchmarkCircuit8()
     //     for segment in edge:
     //         self.world.CreateBody(shapes=b2EdgeShape(vertices=segment))
 
-    // # cars !
-    // self.cars = []
-    // nbCarsPerTrack = 10
+    // populate this with cars !
+    int nbCarsPerTrack = 2;
 
-    // # automatic cars (waypoints)
-    // for lane in range(4):
-    //     speed = random.random()*20+10
-    //     for c in range(nbCarsPerTrack):
-    //         initialTrip = c*trajectories[lane].length/nbCarsPerTrack
-    //         self.cars.append( WaypointsCar(world=self.world,trajectory=trajectories[lane],speed=speed,initialtrip=initialTrip) )
+    // automatic cars (waypoints)
+    for (auto traj_it = m_Trajectories.begin(); traj_it!=m_Trajectories.end(); traj_it++)
+    {
+        float speed = randf()*20.f+10.f;
+        for (int c=0; c<nbCarsPerTrack; c++)
+        {
+            float initialTrip = (float)c*(*traj_it)->GetLength()/(float)nbCarsPerTrack;
+            TrajectoryCar *car = new TrajectoryCar(Getb2World(),*traj_it,speed,initialTrip);
+            m_Cars.push_back(car);
+            m_TrajectoryCars.push_back(car);
+        }
+    }
 
     // free car
     m_FreeCar = new FreeCar(Getb2World(),w/4,l*2);
@@ -112,4 +120,9 @@ void BenchmarkCircuit8::Step(float dt)
 FreeCar* BenchmarkCircuit8::GetFreeCar()
 {
     return m_FreeCar;
+}
+
+std::list<TrajectoryCar*> BenchmarkCircuit8::GetTrajectoryCars()
+{
+    return m_TrajectoryCars;
 }

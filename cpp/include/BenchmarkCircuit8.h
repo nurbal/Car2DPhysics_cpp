@@ -13,9 +13,11 @@ class BenchmarkCircuit8
         void Step(float dt);
 
         FreeCar* GetFreeCar();
+        std::list<TrajectoryCar*> GetTrajectoryCars();
 
     protected:
         std::list<Trajectory*> m_Trajectories;
         std::list<BaseCar*> m_Cars;
+        std::list<TrajectoryCar*> m_TrajectoryCars;
         FreeCar* m_FreeCar;
 };
