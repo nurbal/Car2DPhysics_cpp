@@ -80,10 +80,11 @@ def main():
 
         for car in trajectrorycars:
             (x,y,angle) = car.GetPosition()
-            viewport.draw_sprite(freecar_sprite,x,y,angle)
+            viewport.draw_sprite(trajectorycar_sprite,x,y,angle)
 
 
-        
+        # viewport.draw_sprite(freecar_sprite,-5,0,-angle)
+
         done = viewport.update(50)
         tc += 0.02  # 20ms = 50fps
 

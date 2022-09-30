@@ -90,8 +90,8 @@ float Trajectory::GetAngle(float abscissa)
     Segment *s = GetSegment(abscissa);
     if (!s) 
         return 0.f;
-    float angle = acosf(-s->N.y);
-    if (s->N.x<0)
+    float angle = acosf(s->N.y);
+    if (s->N.x>0)
         angle = -angle;
     return angle;
 }
