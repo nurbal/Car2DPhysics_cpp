@@ -39,6 +39,7 @@ PYBIND11_MODULE(car2dphysics, m)
         .def(py::init< std::list<float>* >())
         // .def("add", &ComplexNumber::add)
         .def("GetLength", &Trajectory::GetLength)
+        .def("GetSegments", &Trajectory::GetSegments)
         // .def("__repr__",[](const ComplexNumber &c) {return "<sandbox Complex value=(" + STRINGIFY(c._x) + "," + STRINGIFY(c._y) + ")"; }
         .def("__repr__", &Trajectory::Repr)
         // .def(pybind11::self + pybind11::self)
@@ -61,6 +62,7 @@ PYBIND11_MODULE(car2dphysics, m)
         .def("Turn",&FreeCar::Turn)
         ;
     py::class_<TrajectoryCar,BaseCar>(m,"TrajectoryCar")
+        .def("GetTrajectory",&TrajectoryCar::GetTrajectory)
         ;
 
 

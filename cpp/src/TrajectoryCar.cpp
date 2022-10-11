@@ -11,11 +11,12 @@ TrajectoryCar::TrajectoryCar(b2World *world, Trajectory *trajectory, float speed
 
     // create the body of the car...
     b2BodyDef bodyDef;
-    bodyDef.type = b2_kinematicBody; // speed set by user, moved by solver
+    bodyDef.type = b2_dynamicBody; //b2_staticBody; 
+    bodyDef.position.Set(0.f,0.f);
     m_Body = m_World->CreateBody(&bodyDef);
     b2PolygonShape shape; 
     shape.SetAsBox(m_Width/2,m_Length/2); 
-    m_Body->CreateFixture(&shape,0.f);
+    m_Body->CreateFixture(&shape,20.f);
 
     // position the body
     float angle = m_Trajectory->GetAngle(m_Trip);
@@ -32,6 +33,7 @@ TrajectoryCar::~TrajectoryCar()
 void TrajectoryCar::Step(float dt)
 {
     // update trip (=abscissa along the trajectory)
+    float angle_previous = m_Trajectory->GetAngle(m_Trip);
     m_Trip += dt*m_Speed;
     while(m_Trip >= m_Trajectory->GetLength())
         m_Trip -= m_Trajectory->GetLength();
@@ -45,4 +47,6 @@ void TrajectoryCar::Step(float dt)
     m_Trajectory->GetDirection(m_Trip,velocity);
     velocity*=m_Speed;
     m_Body->SetLinearVelocity(velocity);
+    // angular velocity
+    m_Body->SetAngularVelocity((angle-angle_previous)/dt);
 }

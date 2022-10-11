@@ -18,11 +18,6 @@ class Trajectory
         void GetDirection(float abscissa, b2Vec2 &direction);
         float GetAngle(float abscissa); // 0 = north, PI/2 = west, -pi/2 = east, pi=south
 
-        std::string Repr();
-        
-    protected:
-        void Init(std::list<b2Vec2>* waypoints);
-
         typedef struct 
         {
             b2Vec2 P1;          // starting point
@@ -31,6 +26,14 @@ class Trajectory
             float length;       // segment lenght
             float abscissa;   // segment start abscissa
         } Segment;
+
+        const std::list<Segment*>& GetSegments() const {return m_Segments;}
+
+        std::string Repr();
+        
+    protected:
+        void Init(std::list<b2Vec2>* waypoints);
+
 
         std::list<Segment*> m_Segments;  
         Segment* GetSegment(float abscissa);         

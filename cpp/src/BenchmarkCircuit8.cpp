@@ -115,6 +115,11 @@ void BenchmarkCircuit8::Step(float dt)
 {
     for (std::list<BaseCar*>::iterator it = m_Cars.begin(); it!=m_Cars.end(); it++)
         (*it)->Step(dt);
+
+    // update world
+    int velocityIterations = 8;
+    int positionIterations = 3;
+    Getb2World()->Step(dt,velocityIterations,positionIterations);  
 }
 
 FreeCar* BenchmarkCircuit8::GetFreeCar()

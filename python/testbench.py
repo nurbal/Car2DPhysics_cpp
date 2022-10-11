@@ -36,6 +36,9 @@ def main():
     freecar = circuit.GetFreeCar()
     trajectrorycars = circuit.GetTrajectoryCars()
 
+    # for car in trajectrorycars:
+    #     print (car.GetTrajectory())
+
     # TODO create road borders
 
     # simulation loop

@@ -29,10 +29,11 @@ FreeCar::FreeCar(b2World *world, float spawnDistance, float maxDistance) : BaseC
     // create the body of the car...
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody; // speed set by user, moved by solver
+    bodyDef.position.Set(0.f,0.f);
     m_Body = m_World->CreateBody(&bodyDef);
     b2PolygonShape shape; 
     shape.SetAsBox(m_Width/2,m_Length/2); 
-    m_Body->CreateFixture(&shape,0.f);
+    m_Body->CreateFixture(&shape,20.f);
 
     // position the body
     Respawn();

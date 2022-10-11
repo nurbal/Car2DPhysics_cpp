@@ -13,6 +13,8 @@ class TrajectoryCar : public BaseCar
 
         virtual void Step(float dt);
 
+        const Trajectory* GetTrajectory() const {return m_Trajectory;}
+
     protected:
         Trajectory* m_Trajectory;
         float       m_Speed;
