@@ -19,12 +19,14 @@ FreeCar::FreeCar(b2World *world, float spawnDistance, float maxDistance) : BaseC
     m_MaxThrottleReverseAccel = FREECAR_MAXTHROTTLEREVERSEACCEL;
     m_MaxBrakeAccel =           FREECAR_MAXBRAKEACCEL;
     m_MinTurnRadius =           FREECAR_MINTURNRADIUS;
+    m_SideSpeedDamping =        FREECAR_SIDESPEEDDAMPING;
+    m_AngularDamping =          FREECAR_ANGULARDAMPING; // angular damping in rad.s-2 to achieve dry friction
 
     // vehicle status
     m_ThrottleAccel = 0.f;
     m_BrakeAccel = 0.f;
     m_Steering = 0.f;
-    m_Speed = 0.f;
+//    m_Speed = 0.f;
     
     // create the body of the car...
     b2BodyDef bodyDef;
@@ -51,6 +53,8 @@ void FreeCar::Respawn()
     float y = m_SpawnDistance * (-1.f+2.f*(((float)rand()) / (float)RAND_MAX));
     b2Vec2 position(x,y);
     m_Body->SetTransform(position,0.f);
+    m_Body->SetAngularVelocity(0.f);
+    m_Body->SetLinearVelocity(b2Vec2(0,0));
 }
 
 void FreeCar::Throttle(float value)
@@ -73,6 +77,16 @@ void FreeCar::Brake(float value)
 void FreeCar::Turn(float value)
 {
     m_Steering = value;
+}
+
+float DampenSpeed(float speed,float damping,float dt)
+{
+    float speed_reduction = damping*dt;
+    if (speed>speed_reduction)
+        return speed-speed_reduction;
+    if (speed<-speed_reduction)
+        return speed+speed_reduction;
+    return 0.f;
 }
 
 void FreeCar::Step(float dt)
@@ -117,6 +131,30 @@ void FreeCar::Step(float dt)
         }
     }
 
+    /*
+    Free car update:
+    - compute speed (decomposed in f/r where f = front speed, r=lateral(right) speed)
+    - dampen lateral speed to 0
+    - dampen front speed to speedtarget
+    */ 
+
+    // compute front and right unit vectors
+    float c = cosf(m_Body->GetAngle());
+    float s = sinf(m_Body->GetAngle());
+    b2Vec2 forward(-s,c);   // Y axis=forward, X=right
+    b2Vec2 right(c,s);
+ 
+    // compute current speed
+    b2Vec2 S = m_Body->GetLinearVelocity();
+    float Speed_forward = b2Dot(S,forward);
+    float Speed_right = b2Dot(S,right);
+    float Speed_angular = m_Body->GetAngularVelocity();
+
+/*
+    // lateral speed dampen
+    Speed_right = 0.f; // TEMP
+
+
     // Compute Speed
     float deltaV = acceleration * dt;
     if (m_Speed<speedTarget)
@@ -127,13 +165,9 @@ void FreeCar::Step(float dt)
         m_Speed = fmaxf(m_Speed-deltaV,speedTarget);
 
     // Move (done outside box2D solver, because of turning ray...)
-    float c = cosf(m_Body->GetAngle());
-    float s = sinf(m_Body->GetAngle());
-    b2Vec2 forward(-s,c);   // Y axis=forward, X=right
-    b2Vec2 right(c,s);
 
     float dP = m_Speed*dt;    // abscisse curviligne
-    float dx = 0; float dy = dP;    // default forward values
+    float dx = Speed_right*dt; float dy = dP;    // default forward values
     float alpha = 0.f;  // angle change
     if (fabs(m_Steering)>0.01)
     {
@@ -150,6 +184,21 @@ void FreeCar::Step(float dt)
     newPos += forward;
     float newAngle = m_Body->GetAngle() - alpha;
     m_Body->SetTransform(newPos,newAngle);
+    */
+
+    // new speed
+    // Speed_right = 0.f; // extreme damping :-)
+    // Speed_angular = 0.f;    // extreme angular damping too
+    Speed_right = DampenSpeed(Speed_right,m_SideSpeedDamping,dt);
+    Speed_angular = DampenSpeed(Speed_angular,m_AngularDamping,dt);
+
+    b2Vec2 sR = right; sR *= Speed_right;
+    b2Vec2 sF = forward; sF *= Speed_forward;
+    b2Vec2 speed = sR+sF;
+    m_Body->SetLinearVelocity(speed);
+    m_Body->SetAngularVelocity(Speed_angular);
+
+
 }
 
 

@@ -85,7 +85,7 @@ BenchmarkCircuit8::BenchmarkCircuit8()
     //         self.world.CreateBody(shapes=b2EdgeShape(vertices=segment))
 
     // populate this with cars !
-    int nbCarsPerTrack = 2;
+    int nbCarsPerTrack = 1;
 
     // automatic cars (waypoints)
     for (auto traj_it = m_Trajectories.begin(); traj_it!=m_Trajectories.end(); traj_it++)

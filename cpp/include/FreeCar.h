@@ -16,7 +16,7 @@ class FreeCar : public BaseCar
 
     protected:
         b2World*    m_World;
-        
+
         float m_SpawnDistance;
         float m_MaxDistance;
         float m_MaxSpeed;
@@ -25,11 +25,13 @@ class FreeCar : public BaseCar
         float m_MaxThrottleReverseAccel;
         float m_MaxBrakeAccel;
         float m_MinTurnRadius;
+        float m_SideSpeedDamping;
+        float m_AngularDamping;
 
         float m_ThrottleAccel;
         float m_BrakeAccel;
         float m_Steering;
-        float m_Speed;
+//        float m_Speed;
 
         void Respawn();
 };
