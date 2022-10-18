@@ -168,7 +168,6 @@ void FreeCar::Step(float dt)
         // we are turning
         float ray = 1.f/m_Steering * m_MinTurnRadius;
         steering_angular_speed = -Speed_forward/ray;
-        std::cout << "ray=" << ray << " speed=" << Speed_forward << " angular speed=" << Speed_angular <<std::endl;
     }
 
     // speeds damping
@@ -180,7 +179,6 @@ void FreeCar::Step(float dt)
     b2Vec2 speed = sR+sF;
     m_Body->SetLinearVelocity(speed);
     m_Body->SetAngularVelocity(Speed_angular);
-
 
 }
 
