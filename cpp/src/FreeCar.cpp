@@ -79,14 +79,14 @@ void FreeCar::Turn(float value)
     m_Steering = value;
 }
 
-float DampenSpeed(float speed,float damping,float dt)
+float DampenSpeed(float speed,float targetspeed,float damping,float dt)
 {
     float speed_reduction = damping*dt;
-    if (speed>speed_reduction)
+    if (speed-targetspeed>speed_reduction)
         return speed-speed_reduction;
-    if (speed<-speed_reduction)
+    if (speed-targetspeed<-speed_reduction)
         return speed+speed_reduction;
-    return 0.f;
+    return targetspeed;
 }
 
 void FreeCar::Step(float dt)
@@ -150,47 +150,30 @@ void FreeCar::Step(float dt)
     float Speed_right = b2Dot(S,right);
     float Speed_angular = m_Body->GetAngularVelocity();
 
-/*
-    // lateral speed dampen
-    Speed_right = 0.f; // TEMP
-
-
-    // Compute Speed
+   
+    // Compute Speed (throttle / brakes)
     float deltaV = acceleration * dt;
-    if (m_Speed<speedTarget)
+    if (Speed_forward<speedTarget)
         // accelerate forward 
-        m_Speed = fminf(m_Speed+deltaV,speedTarget);   
+        Speed_forward = fminf(Speed_forward+deltaV,speedTarget);   
     else
         // accelerate backward
-        m_Speed = fmaxf(m_Speed-deltaV,speedTarget);
+        Speed_forward = fmaxf(Speed_forward-deltaV,speedTarget);
 
-    // Move (done outside box2D solver, because of turning ray...)
 
-    float dP = m_Speed*dt;    // abscisse curviligne
-    float dx = Speed_right*dt; float dy = dP;    // default forward values
-    float alpha = 0.f;  // angle change
+    // steering
+    float steering_angular_speed = 0.f;
     if (fabs(m_Steering)>0.01)
     {
         // we are turning
         float ray = 1.f/m_Steering * m_MinTurnRadius;
-        alpha = dP/ray;
-        float dx = -ray*(1.f-cosf(alpha));
-        float dy = ray*sinf(alpha);
+        steering_angular_speed = -Speed_forward/ray;
+        std::cout << "ray=" << ray << " speed=" << Speed_forward << " angular speed=" << Speed_angular <<std::endl;
     }
-    b2Vec2 newPos(m_Body->GetPosition());
-    right *= dx;
-    forward *= dy;
-    newPos += right;
-    newPos += forward;
-    float newAngle = m_Body->GetAngle() - alpha;
-    m_Body->SetTransform(newPos,newAngle);
-    */
 
-    // new speed
-    // Speed_right = 0.f; // extreme damping :-)
-    // Speed_angular = 0.f;    // extreme angular damping too
-    Speed_right = DampenSpeed(Speed_right,m_SideSpeedDamping,dt);
-    Speed_angular = DampenSpeed(Speed_angular,m_AngularDamping,dt);
+    // speeds damping
+    Speed_right = DampenSpeed(Speed_right,0,m_SideSpeedDamping,dt);
+    Speed_angular = DampenSpeed(Speed_angular,steering_angular_speed,m_AngularDamping,dt);
 
     b2Vec2 sR = right; sR *= Speed_right;
     b2Vec2 sF = forward; sF *= Speed_forward;
